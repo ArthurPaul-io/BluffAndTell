@@ -1,0 +1,82 @@
+/* Formulaire de login */
+form {
+    width: 100%;
+    max-width: 400px; /* Limite la largeur du formulaire */
+    margin: 50px auto; /* Centrer le formulaire avec un espace autour */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
+  }
+  
+  /* Message d'erreur */
+  .alert {
+    margin-bottom: 20px;
+    font-size: 1rem; /* Taille de police de l'alerte */
+  }
+  
+  /* Titre principal */
+  h1.h3 {
+    font-size: 1.75rem; /* Taille réduite du titre */
+    font-weight: normal;
+    margin-bottom: 30px; /* Espacement sous le titre */
+    color: #333; /* Couleur foncée pour le titre */
+  }
+  
+  /* Labels des champs */
+  form label {
+    font-size: 1rem; /* Taille de police des labels */
+    margin-bottom: 5px; /* Espacement entre le label et le champ */
+    display: block; /* Affichage en bloc pour séparer le label du champ */
+  }
+  
+  /* Champs de saisie */
+  form input[type="email"],
+  form input[type="password"] {
+    width: 100%; /* Largeur à 100% pour remplir l'espace disponible */
+    padding: 10px; /* Espacement interne des champs */
+    margin-bottom: 15px; /* Espacement entre les champs */
+    font-size: 1rem; /* Taille du texte dans les champs */
+    border: 1px solid #ccc; /* Bordure légère */
+    border-radius: 4px; /* Bords arrondis */
+    box-sizing: border-box; /* Assurer que le padding ne modifie pas la largeur totale */
+  }
+  
+  /* Bouton de soumission */
+  button[type="submit"] {
+    width: 100%; /* Le bouton prend toute la largeur */
+    padding: 12px;
+    background-color: #007bff; /* Bleu pour le bouton */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem; /* Agrandir légèrement la taille du texte */
+    cursor: pointer;
+    transition: background-color 0.3s; /* Transition pour le changement de couleur */
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #0056b3; /* Couleur au survol */
+  }
+  
+  /* Lien d'inscription */
+  form div {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  form div span {
+    font-size: 1rem;
+  }
+  
+  form a.btn {
+    font-size: 0.9rem; /* Taille du texte plus petit pour le lien */
+    margin-left: 10px; /* Espacement entre le texte et le lien */
+  }
+  
+  /* Espacement autour du formulaire */
+  form .mb-3 {
+    margin-bottom: 1.5rem; /* Espacement pour la section "You are logged in..." */
+  }
+
+ body {font-family: 'Bree Serif', serif;}

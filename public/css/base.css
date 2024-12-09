@@ -1,0 +1,28 @@
+body {
+    background: linear-gradient(180deg, #4c92ff, #6a1b9a); /* Dégradé bleu-violet */
+    font-family: 'Bree Serif', serif; /* Utilisation de Bree Serif */
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    line-height: 3.6;
+  }
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    color: #007bff;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+<link rel="stylesheet" href="/css/bluffandtell.css">
+
+<img src="{{ asset('images/logoblanc.png') }}" alt="Logo BluffTell"/> 
+
+<!-- Titre principal -->
+<h1 class="text-primary" style="font-family: 'Bree Serif', sans-serif;">Welcome to Bluff & Tell!</h1>
+<p class="text-muted beige">Where your creativity meets your bluffing skills.</p>
+
+<!-- Description -->
+<p class="text-secondary beige">Get ready to create stories, guess the impostor, and have fun with your friends!</p>
+
+
+<div class="form-group">
+    <label for="exampleInputEmail1">Met ton Pseudo !</label>
+    <input type="text" class="form-control" id="pseudo1" aria-describedby="pseudoHelp" placeholder="Entrez un pseudo">
+    <small id="pseudoHelp" class="form-text text-muted"></small>
+</div>
+
+
+{# <form method="POST" action="{{ path('app_login') }}"> #}
+    <a href="{{ path('app_login') }}">
+    <button type="submit" class="btn btn-primary">Jouer !</button>
+    </a>
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/home.js') }}"></script>
+{% endblock %}
+
+{% endblock %}
