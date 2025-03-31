@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rejoindre la partie - {{ game.id }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Rejoindre la partie : {{ game.id }}</h1>
+
+        <div class="game-details mt-4">
+            <p><strong>Statut :</strong> {{ game.gameStatut == 'en cours' ? 'En cours' : 'Fermée' }}</p>
+            <p><strong>Nombre de joueurs :</strong> {{ game.gameusers|length }}</p>
+            <p><strong>Nombre de rounds :</strong> {{ game.roundCount }}</p>
+
+            <h3>Les Joueurs actuels:</h3>
+            <ul>
+                {% for player in game.gameusers %}
+                    <li>{{ player.user.pseudo }}</li>
+                {% else %}
+                    <p>Aucun joueur n'est inscrit pour l'instant.</p>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+        {% if game.gameStatut == 'en cours' %}
+            <button id="ready-btn">Je suis prêt</button>
+
+            <div id="status"></div>
+
+            <script>
+                let gameId = {{ game.id | json_encode }};
+            </script>
+
+            <!-- Inclure ton fichier JS -->
+            <script src="{{ asset('js/game.js') }}"></script>
+
+        {% else %}
+            <p class="text-danger">Cette partie est fermée. Vous ne pouvez pas la rejoindre.</p>
+        {% endif %}
+
+        <a href="{{ path('app_games_index') }}" class="btn btn-secondary mt-3">Retour à la liste des parties</a>
+    </div>
+{% endblock %}

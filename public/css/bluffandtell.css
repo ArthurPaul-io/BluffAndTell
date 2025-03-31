@@ -1,72 +1,143 @@
+/* Global CRUD Style */
 body {
-  background: linear-gradient(180deg, #4c92ff, #6a1b9a); /* Dégradé bleu-violet */
-  font-family: 'Bree Serif', serif; /* Utilisation de Bree Serif */
-  color: #f5f5dc !important; /* Beige pour le texte principal */
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
   margin: 0;
   padding: 0;
-  height: 100vh;
-  line-height: 3.6;
+  display: flex; /* Active Flexbox */
+  align-items: center; /* Centre verticalement */
+  justify-content: center; /* Centre horizontalement */
+  min-height: 100vh; /* Hauteur de la page complète */
+  flex-direction: column; /* Permet d'empiler les éléments */
 }
 
-h1.text-primary {
-  color: #ffffff; /* Blanc pour mieux contraster avec le dégradé */
-  font-size: 4rem;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15); /* Ajout d'une ombre douce pour le texte */
+/* Container styling */
+.container {
+  padding: 20px;
+  max-width: 900px;
+  width: 100%; /* S'adapte à la taille de l'écran */
+  border-radius: 8px;
+  text-align: center; /* Centre le texte dans le conteneur */
 }
 
-h2 {
-  color: #ffffff; /* Blanc pour le titre secondaire */
-  font-size: 1.75rem;
-  font-weight: bold;
+/* Headings */
+h1, h2 {
+  font-size: 2rem;
+  color: #007bff;
   margin-bottom: 20px;
 }
 
-.text-secondary {
-  color: #d1d3d8; /* Gris clair pour les textes secondaires */
+h3 {
+  font-size: 1.5rem;
+  color: #495057;
+  margin-bottom: 15px;
 }
 
-footer {
-  background-color: #f8f9fa;
-  border-top: 1px solid #dee2e6;
-  font-size: 0.9em;
-  text-align: center;
-  padding: 15px;
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
 }
 
-.container {
-  padding: 20px;
-  text-align: center;
+table th, table td {
+  border: 1px solid #dee2e6;
+  padding: 10px;
+  text-align: left;
 }
 
-button {
-  transition: all 0.3s ease-in-out; /* Ajout d'une transition douce pour le bouton */
-}
-
-button:hover {
+table th {
   background-color: #007bff;
   color: white;
-  transform: scale(1.05); /* Effet de survol sur le bouton */
+  font-weight: bold;
 }
 
-.example-wrapper { 
-  margin: 1em auto; 
-  max-width: 800px; 
-  width: 95%; 
-  font: 18px/1.5 sans-serif; 
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
 }
 
-.example-wrapper code { 
-  background: #F5F5F5; 
-  padding: 2px 6px; 
+/* Buttons */
+button, .btn {
+  display: inline-block;
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.beige {
-  color: #f8f9fa !important; 
+button:hover, .btn:hover {
+  background-color: #0056b3;
 }
 
-img {
-  max-width: 50%; /* Limite la largeur de l'image à 60% de son conteneur */
-  height: auto; /* Garde le ratio de l'image */
-  display: block; /* Centre l'image horizontalement */
-  margin: 20px auto;
+/* Links styled as buttons */
+a.btn {
+  text-decoration: none;
+}
+
+/* Form Styling */
+form {
+  margin-top: 20px;
+  text-align: center; /* Centre le contenu des formulaires */
+}
+
+form label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #495057;
+}
+
+form input, form select, form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+form input:focus, form select:focus, form textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Submit and Cancel Buttons */
+form button[type="submit"], form a.btn {
+  display: inline-block;
+  width: auto;
+  margin: 0 auto;
+}
+
+/* Error Messages */
+.alert {
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+  border-radius: 4px;
+}
+
+/* Success Messages */
+.alert-success {
+  background-color: #d1e7dd;
+  color: #0f5132;
+  border: 1px solid #badbcc;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #007bff;
+  color: white;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }

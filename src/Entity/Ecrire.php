@@ -23,16 +23,17 @@ class Ecrire
     private ?bool $bluffoutell = null;
 
     /**
-     * @var Collection<int, User>
-     */
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'sesannecdotes')]
-    private Collection $ecritpar;
-
-    /**
      * @var Collection<int, Rounds>
      */
     #[ORM\OneToMany(targetEntity: Rounds::class, mappedBy: 'lanecdote')]
     private Collection $round;
+
+    #[ORM\ManyToOne(inversedBy: 'lesanecdotes')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?Rounds $id_round = null;
+
+    #[ORM\ManyToOne(inversedBy: 'plusieursanecdotes')]
+    private ?User $ecrivain = null;
 
     public function __construct()
     {
@@ -69,35 +70,6 @@ class Ecrire
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getEcritpar(): Collection
-    {
-        return $this->ecritpar;
-    }
-
-    public function addEcritpar(User $ecritpar): static
-    {
-        if (!$this->ecritpar->contains($ecritpar)) {
-            $this->ecritpar->add($ecritpar);
-            $ecritpar->setSesannecdotes($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEcritpar(User $ecritpar): static
-    {
-        if ($this->ecritpar->removeElement($ecritpar)) {
-            // set the owning side to null (unless already changed)
-            if ($ecritpar->getSesannecdotes() === $this) {
-                $ecritpar->setSesannecdotes(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Rounds>
@@ -125,6 +97,30 @@ class Ecrire
                 $round->setLanecdote(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIdRound(): ?Rounds
+    {
+        return $this->id_round;
+    }
+
+    public function setIdRound(?Rounds $id_round): static
+    {
+        $this->id_round = $id_round;
+
+        return $this;
+    }
+
+    public function getEcrivain(): ?User
+    {
+        return $this->ecrivain;
+    }
+
+    public function setEcrivain(?User $ecrivain): static
+    {
+        $this->ecrivain = $ecrivain;
 
         return $this;
     }

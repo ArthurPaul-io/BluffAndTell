@@ -14,8 +14,7 @@ class Games
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $Game_id = null;
+
 
     #[ORM\Column]
     private ?int $RoundCount = null;
@@ -26,14 +25,18 @@ class Games
     /**
      * @var Collection<int, Appartenir>
      */
-    #[ORM\OneToMany(targetEntity: Appartenir::class, mappedBy: 'game')]
+    #[ORM\OneToMany(targetEntity: Appartenir::class, mappedBy: 'game', cascade: ['remove'])]
     private Collection $gameusers;
 
     /**
      * @var Collection<int, Rounds>
      */
-    #[ORM\OneToMany(targetEntity: Rounds::class, mappedBy: 'lapartie')]
+    #[ORM\OneToMany(targetEntity: Rounds::class, mappedBy: 'lapartie',  cascade: ['remove'])]
     private Collection $lesrounds;
+
+   // #[ORM\Column(length: 255, nullable: true)]
+   #[ORM\ManyToOne()]
+    private ?User $CreatedBy = null;
 
     public function __construct()
     {
@@ -46,17 +49,8 @@ class Games
         return $this->id;
     }
 
-    public function getGameId(): ?int
-    {
-        return $this->Game_id;
-    }
 
-    public function setGameId(int $Game_id): static
-    {
-        $this->Game_id = $Game_id;
-
-        return $this;
-    }
+    
 
     public function getRoundCount(): ?int
     {
@@ -81,6 +75,8 @@ class Games
 
         return $this;
     }
+
+
 
     /**
      * @return Collection<int, Appartenir>
@@ -140,5 +136,27 @@ class Games
         }
 
         return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->CreatedBy;
+    }
+
+    public function setCreatedBy(?User $CreatedBy): static
+    {
+        $this->CreatedBy = $CreatedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get the players associated with this game.
+     *
+     * @return Collection<int, User>
+     */
+    public function getPlayers(): Collection
+    {
+        return $this->gameusers->map(fn(Appartenir $appartenir) => $appartenir->getUser());
     }
 }

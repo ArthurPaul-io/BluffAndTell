@@ -22,6 +22,9 @@ class Appartenir
     #[ORM\Column(length: 255)]
     private ?string $role = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $ready = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Appartenir
     public function setRole(string $role): static
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    public function isReady(): ?bool
+    {
+        return $this->ready;
+    }
+
+    public function setReady(?bool $ready): static
+    {
+        $this->ready = $ready;
 
         return $this;
     }

@@ -1,0 +1,152 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <style>
+        html {
+    font-size: 18px; /* Taille de police de base */
+}
+
+.container {
+    margin: 30px auto;
+    padding: 20px;
+    max-width: 2000px;
+     min-height: 80vh;
+    background: transparent!important;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px transparent!important
+}
+
+#fodB{
+    background: white;
+    
+}
+
+body {
+    font-size: 2.2rem; /* Augmente la taille du texte */
+    display: flex; /* Utilisation de Flexbox */
+    justify-content: center; /* Centrer horizontalement */
+    align-items: center; /* Centrer verticalement */
+    height: 100vh; /* Prendre 100% de la hauteur de la page */
+}
+
+h1, h2, h3 {
+    font-size: 3rem; /* Agrandir les titres */
+}
+
+button {
+    font-size: 1.1rem; /* Agrandir les boutons */
+    padding: 12px 20px; /* Agrandir les boutons */
+}
+
+
+        h1 {
+            font-size: 74px;
+            font-weight: bold;
+            margin: 30px auto;
+            color: black;
+        }
+
+        .role-announcement {
+            display: flex; /* Utilisation de Flexbox */
+            justify-content: center; /* Centrer horizontalement */
+            align-items: center; /* Centrer verticalement le texte à l'intérieur de la div */
+            /*width: 750px;  Largeur de la div */
+            height: 200px; /* Hauteur de la div */
+            border-radius: 15px; /* Coins arrondis */
+            font-size: 38px;
+            color: black;
+            background: white;
+            box-shadow: 0 4px 10px white;
+        }
+
+        .action-button {
+            width: 400px;
+            height: 120px;
+            margin-top: 40px;
+            padding: 15px 30px;
+            background:rgb(120, 16, 255);
+            border-radius: 20px;
+            font-size: 25px;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+        }
+
+        .players-status {
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        .player {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .player img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .status-icon {
+            font-size: 20px;
+            margin-left: 10px;
+        }
+
+        .ready {
+            color: green;
+        }
+
+        .not-ready {
+            color: red;
+        }
+    </style>
+
+        <div class="container">
+    <div class="main-content">
+        <div style="display: flex; justify-content: space-between; width: 100%; position: relative; margin-bottom: 50px;">
+            <p class="timer" style="color: black;">Temps restant</p>
+            <p style="color: black;">Nb de rounds: {{ currentRound.RoundsNumber }}/{{ totalRounds }}</p>
+        </div>
+        <div class="role-announcement">
+        <h1>Thème: {{ currentRound.letheme.name }}</h1>
+        </div>
+        <div class="role-announcement" style="margin-bottom: 150px;">
+    <span>Annonce du rôle: </span>
+    <strong style="color: {{ role == 'Bluffeur' ? 'red' : 'green' }};">{{ role }}</strong>
+    {#<div style="margin-top: 20px;">
+        {% if role == 'Bluffeur' %}
+            <div style="color: red; font-size: 16px;">Tu es un Bluffeur, raconte une fausse anecdote !</div>
+        {% else %}
+            <div style="color: green; font-size: 16px;">Tu es un Telleur, raconte une vraie anecdote !</div>
+        {% endif %}
+    </div>#}
+</div>
+        <button class="action-button" onclick="transformToInput(this)">
+            ✏️ Raconte une anecdote
+        </button>
+    </div>
+</div>
+
+<div id="status"></div>
+<script>
+    let gameId = {{ game.id | json_encode }};
+</script>
+<script src="{{ asset('js/game.js') }}"></script>
+<script>
+        // Cette fonction est lancée dès que la page est prête
+        document.addEventListener('DOMContentLoaded', function () {
+            // Appel à la fonction startRound dès le chargement de la page
+            verifier();
+            startRound();
+        });
+    </script>
+{# <script> #}
+    {# const gameId = {{ gameId }}; #}
+{# </script> #}
+
+
+{% endblock %}

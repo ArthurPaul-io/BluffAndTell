@@ -1,0 +1,139 @@
+/* Global CRUD Style */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    align-items: center; /* Centrage vertical */
+    justify-content: center; /* Centrage horizontal */
+    min-height: 100vh; /* La hauteur de l'écran */
+}
+
+/* Container styling */
+.container {
+    margin: 30px auto;
+    padding: 20px;
+    max-width: 900px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+h1, h2 {
+    font-size: 2rem;
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 1.5rem;
+    color: #495057;
+    margin-bottom: 15px;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    text-align: left;
+}
+
+table th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+
+/* Buttons */
+button, .btn {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, .btn:hover {
+    background-color: #0056b3;
+}
+
+/* Links styled as buttons */
+a.btn {
+    text-decoration: none;
+}
+
+/* Form Styling */
+form {
+    margin-top: 20px;
+}
+
+form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #495057;
+}
+
+form input, form select, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+form input:focus, form select:focus, form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Submit and Cancel Buttons */
+form button[type="submit"], form a.btn {
+    display: inline-block;
+    width: auto;
+    margin: 0;
+}
+
+/* Error Messages */
+.alert {
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+    border-radius: 4px;
+}
+
+/* Success Messages */
+.alert-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #007bff;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}

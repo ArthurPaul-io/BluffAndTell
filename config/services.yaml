@@ -6,6 +6,9 @@
 parameters:
 
 services:
+    App\Repository\AppartenirRepository:
+        autowire: true  # Permet à Symfony d'injecter automatiquement ce service
+        autoconfigure: true  # Permet à Symfony de configurer automatiquement les paramètres
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

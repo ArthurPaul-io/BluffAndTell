@@ -60,14 +60,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Theme::class, mappedBy: 'createur')]
     private Collection $themecreer;
 
-    #[ORM\ManyToOne(inversedBy: 'ecritpar')]
-    private ?Ecrire $sesannecdotes = null;
+    /**
+     * @var Collection<int, Ecrire>
+     */
+    #[ORM\OneToMany(targetEntity: Ecrire::class, mappedBy: 'ecrivain')]
+    private Collection $plusieursanecdotes;
 
     public function __construct()
     {
         $this->leschats = new ArrayCollection();
         $this->usergames = new ArrayCollection();
         $this->themecreer = new ArrayCollection();
+        $this->plusieursanecdotes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,7 +96,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @see UserInterface
      */
-    public function getUserIdentifier(): string
+    public function getUserIdentifier(): string 
     {
         return (string) $this->email;
     }
@@ -259,14 +263,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getSesannecdotes(): ?Ecrire
-    {
-        return $this->sesannecdotes;
+
+    public function __ToString(){
+        return $this->email;
     }
 
-    public function setSesannecdotes(?Ecrire $sesannecdotes): static
+    /**
+     * @return Collection<int, Ecrire>
+     */
+    public function getPlusieursanecdotes(): Collection
     {
-        $this->sesannecdotes = $sesannecdotes;
+        return $this->plusieursanecdotes;
+    }
+
+    public function addPlusieursanecdote(Ecrire $plusieursanecdote): static
+    {
+        if (!$this->plusieursanecdotes->contains($plusieursanecdote)) {
+            $this->plusieursanecdotes->add($plusieursanecdote);
+            $plusieursanecdote->setEcrivain($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlusieursanecdote(Ecrire $plusieursanecdote): static
+    {
+        if ($this->plusieursanecdotes->removeElement($plusieursanecdote)) {
+            // set the owning side to null (unless already changed)
+            if ($plusieursanecdote->getEcrivain() === $this) {
+                $plusieursanecdote->setEcrivain(null);
+            }
+        }
 
         return $this;
     }
