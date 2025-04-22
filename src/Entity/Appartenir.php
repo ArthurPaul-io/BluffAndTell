@@ -25,6 +25,9 @@ class Appartenir
     #[ORM\Column(nullable: true)]
     private ?bool $ready = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $point_joueur = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class Appartenir
     public function setReady(?bool $ready): static
     {
         $this->ready = $ready;
+
+        return $this;
+    }
+
+    public function getPointJoueur(): ?int
+    {
+        return $this->point_joueur;
+    }
+
+    public function setPointJoueur(?int $point_joueur): static
+    {
+        $this->point_joueur = $point_joueur;
 
         return $this;
     }

@@ -35,6 +35,9 @@ class Ecrire
     #[ORM\ManyToOne(inversedBy: 'plusieursanecdotes')]
     private ?User $ecrivain = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $nb_point = null;
+
     public function __construct()
     {
         $this->ecritpar = new ArrayCollection();
@@ -121,6 +124,18 @@ class Ecrire
     public function setEcrivain(?User $ecrivain): static
     {
         $this->ecrivain = $ecrivain;
+
+        return $this;
+    }
+
+    public function getNbPoint(): ?int
+    {
+        return $this->nb_point;
+    }
+
+    public function setNbPoint(?int $nb_point): static
+    {
+        $this->nb_point = $nb_point;
 
         return $this;
     }
