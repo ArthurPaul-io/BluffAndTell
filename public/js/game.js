@@ -24,13 +24,33 @@ function verifier(){
         .then(response => response.json())
         .then(data => {
             document.getElementById("status").innerText = `Joueurs prêts : ${data.ready}/${data.total}`;
-            if (data.allReady) {
+            if (data.allReady) {  
                 // alert(`Tous les joueurs sont prêts ! /games/${gameId}/play`);
                 window.location.href = `/games/${gameId}/play`;
             }
         });
 }, 5000);
 }
+
+// Vérifier régulièrement si tous les joueurs sont prêts, en gros ici on va faire la même chose pour le /play mais il faudra faire en sorte que ça ne redirige pas vers le /play si on est déjà sur le /play
+function verifier_play() {
+    setInterval(() => {
+    fetch(`/games/${gameId}/ecrire-status`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("status").innerText = `Anecdotes prêtes : ${data.ready}/${data.total}`;
+            if (data.allReady) {
+                // Vérifier si l'utilisateur est déjà sur la page /play
+                    if (!window.location.pathname.includes(`/games/${gameId}/play`)) {
+                window.location.href = `/games/${gameId}/play`;
+            }
+        }
+            })
+            .catch(error => console.error("Erreur :", error));
+}, 5000);
+}
+
+
 
 function transformToInput(button) {
     // Créer un conteneur pour l'input et le bouton
@@ -152,3 +172,50 @@ function sendAnecdote() {
 }
 
 document.getElementById('submit-anecdote').addEventListener('click', sendAnecdote);
+
+
+
+
+function empecherRafraichissementEtRediriger() {
+    // URL de redirection en cas de tentative de rafraîchissement
+    const urlRedirection = "/games"; // Votre page d'accueil des jeux
+    
+    // Variable pour suivre si on est en train de rafraîchir
+    let estEnRafraichissement = false;
+    
+    // Intercepter la tentative de rafraîchissement
+    window.addEventListener('beforeunload', function(e) {
+        // Si ce n'est pas déjà une redirection contrôlée
+        if (!estEnRafraichissement) {
+            // Marquer qu'on a tenté de rafraîchir
+            sessionStorage.setItem('tentativeRafraichissement', 'true');
+            
+            // Afficher le message d'avertissement standard
+            e.preventDefault();
+            e.returnValue = '';
+            return '';
+        }
+    });
+    
+    // Vérifier au chargement si c'était un rafraîchissement
+    document.addEventListener('DOMContentLoaded', function() {
+        if (sessionStorage.getItem('tentativeRafraichissement') === 'true') {
+            // Effacer le marqueur
+            sessionStorage.removeItem('tentativeRafraichissement');
+            
+            // Rediriger vers la page d'accueil
+            estEnRafraichissement = true;
+            window.location.href = urlRedirection;
+        }
+    });
+    
+    // Bloquer également F5 et Ctrl+R avec redirection immédiate
+    document.addEventListener('keydown', function(e) {
+        if (e.keyCode === 116 || (e.ctrlKey && e.keyCode === 82)) {
+            e.preventDefault();
+            estEnRafraichissement = true;
+            window.location.href = urlRedirection;
+            return false;
+        }
+    });
+}

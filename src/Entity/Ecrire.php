@@ -16,12 +16,11 @@ class Ecrire
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $contenu = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $bluffoutell = null;
-
     /**
      * @var Collection<int, Rounds>
      */
@@ -37,6 +36,9 @@ class Ecrire
 
     #[ORM\Column(nullable: true)]
     private ?int $nb_point = null;
+
+    #[ORM\Column]
+    private ?bool $roundready = null;
 
     public function __construct()
     {
@@ -136,6 +138,18 @@ class Ecrire
     public function setNbPoint(?int $nb_point): static
     {
         $this->nb_point = $nb_point;
+
+        return $this;
+    }
+
+    public function isRoundready(): ?bool
+    {
+        return $this->roundready;
+    }
+
+    public function setRoundready(bool $roundready): static
+    {
+        $this->roundready = $roundready;
 
         return $this;
     }

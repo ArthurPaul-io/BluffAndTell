@@ -140,8 +140,9 @@ button {
         // Cette fonction est lancée dès que la page est prête
         document.addEventListener('DOMContentLoaded', function () {
             // Appel à la fonction startRound dès le chargement de la page
-            verifier();
+            verifier_play();
             startRound();
+            empecherRafraichissementEtRediriger();
         });
     </script>
 {# <script> #}

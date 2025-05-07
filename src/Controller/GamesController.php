@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\EcrireRepository;
 
 #[Route('/games')]
 final class GamesController extends AbstractController
@@ -102,6 +103,7 @@ final class GamesController extends AbstractController
         $appartenance = new Appartenir();
         $appartenance->setUser($user);
         $appartenance->setGame($game);
+        $appartenance->setReady(0);
         $appartenance->setRole('ROLE_JOUEUR'); // Ajouter le rôle directement dans l'entité Appartenir
         $entityManager->persist($appartenance);
         $entityManager->flush();
@@ -202,6 +204,32 @@ final class GamesController extends AbstractController
     ]);
     }
 
+    #[Route('/{id}/ecrire-status', name: 'app_games_ecrire_status', methods: ['GET'])]
+    public function getEcrireStatus(
+    RoundsRepository $roundsRepository,
+    EcrireRepository $ecrireRepository,
+    int $id
+    ): JsonResponse {
+    // Récupérer le round actuel (le premier round non terminé)
+    $round = $roundsRepository->findOneBy(['lapartie' => $id, 'finished' => false], ['id' => 'ASC']);
+
+    if (!$round) {
+        return new JsonResponse(['error' => 'Round introuvable'], 404);
+    }
+
+    // Récupérer toutes les instances de Ecrire associées au round
+    $ecrires = $ecrireRepository->findBy(['id_round' => $round]); // Utilisation de 'idRound'
+
+    // Vérifier le statut "ready" pour chaque instance
+    $readyEcrires = array_filter($ecrires, fn($e) => $e->isRoundReady());
+
+    return new JsonResponse([
+        'total' => count($ecrires),
+        'ready' => count($readyEcrires),
+        'allReady' => count($ecrires) === count($readyEcrires)
+    ]);
+}
+
     #[Route('/{id}/play', name: 'app_games_play', methods: ['GET'])]
     public function play(GamesRepository $gamesRepository, AppartenirRepository $appartenirRepository, EntityManagerInterface $entityManager, int $id): Response
     {
@@ -225,11 +253,9 @@ final class GamesController extends AbstractController
     $randomPlayerKey = array_rand($players);
     $bluffeur = $players[$randomPlayerKey];
 
-    $appartenance->setReady(false);
-
     // Attribuer les rôles
     foreach ($players as $player) {
-        if ($player === $bluffeur) {
+        if ($player->getId() === $bluffeur->getId()) { // Comparer les identifiants
             $player->setRole('Bluffeur');
         } else {
             $player->setRole('Telleur');
@@ -239,9 +265,6 @@ final class GamesController extends AbstractController
 
     // Sauvegarder les changements
     $entityManager->flush();
-
-
-
 
     // Récupérer tous les rounds associés à la partie, triés par numéro
     $rounds = $game->getLesrounds()->toArray();
@@ -262,6 +285,13 @@ final class GamesController extends AbstractController
         return $this->redirectToRoute('app_games_index');
     }
 
+    $anecdote = new Ecrire();
+    $anecdote->setRoundready(FALSE);
+    $anecdote->setIdRound($currentRound); // Remplacez 'setIdRound' par 'setRound'
+    $anecdote->setEcrivain($user);
+    $entityManager->persist($anecdote);
+    $entityManager->flush();
+
 
     return $this->render('games/play.html.twig', [
         'game' => $game,
@@ -269,7 +299,8 @@ final class GamesController extends AbstractController
         'currentRound' => $currentRound,
         'totalRounds' => count($rounds),
         'role' => $appartenance->getRole(),
-        'gameId' => $game->getId()
+        'gameId' => $game->getId(),
+        'anecdote' => $anecdote
     ]);
     }
   
@@ -283,15 +314,10 @@ final class GamesController extends AbstractController
     AppartenirRepository $appartenirRepository,
     GamesRepository $gamesRepository,
     RoundsRepository $roundsRepository,
+    EcrireRepository $ecrireRepository,
     int $id
 ): JsonResponse {
-    // Récupérer les données envoyées en JSON
-    $data = json_decode($request->getContent(), true);
 
-    // Vérifier si l'anecdote est vide
-    if (!isset($data['anecdote']) || empty($data['anecdote'])) {
-        return new JsonResponse(['message' => 'L\'anecdote est vide'], 400);
-    }
 
     // Récupérer l'utilisateur connecté
     $user = $this->getUser();
@@ -311,6 +337,23 @@ final class GamesController extends AbstractController
         return new JsonResponse(['message' => 'Round introuvable'], 404);
     }
 
+    
+
+    $anecdote = $ecrireRepository->findOneBy([
+        'ecrivain' => $user,
+        'id_round' => $round,
+    ]);
+    // Récupérer les données envoyées en JSON
+    $data = json_decode($request->getContent(), true);
+
+    // Vérifier si l'anecdote est vide
+    if (!isset($data['anecdote']) || empty($data['anecdote'])) {
+        return new JsonResponse(['message' => 'L\'anecdote est vide'], 400);
+    }
+
+    
+
+
     // Récupérer l'appartenance de l'utilisateur à la partie
     $appartenance = $appartenirRepository->findOneBy(['game' => $game, 'user' => $user]);
     if (!$appartenance) {
@@ -320,20 +363,17 @@ final class GamesController extends AbstractController
     // Déterminer si l'utilisateur est un "Bluffeur"
     $isBluffeur = $appartenance->getRole() === 'Bluffeur';
 
-    // Créer une nouvelle instance de Ecrire
-    $anecdote = new Ecrire();
     $anecdote->setContenu($data['anecdote']);
     $anecdote->setBluffoutell($isBluffeur); // Marquer comme fausse si l'utilisateur est un Bluffeur
-    $anecdote->setEcrivain($user); // Associer l'utilisateur connecté
-    $anecdote->setIdRound($round); // Associer le round actuel
-    $appartenance->setReady(True);
+    $anecdote->setRoundready(TRUE);
 
     // Sauvegarde en base de données
     $entityManager->persist($anecdote);
     $entityManager->flush();
 
-    // return new JsonResponse(['message' => 'Anecdote enregistrée !']);
+    return new JsonResponse(['message' => 'Anecdote enregistrée !']);
 }
+
 
 }
 

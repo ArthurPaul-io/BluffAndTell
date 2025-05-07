@@ -34,10 +34,20 @@
             <!-- Inclure ton fichier JS -->
             <script src="{{ asset('js/game.js') }}"></script>
 
+
+
         {% else %}
             <p class="text-danger">Cette partie est fermée. Vous ne pouvez pas la rejoindre.</p>
         {% endif %}
 
         <a href="{{ path('app_games_index') }}" class="btn btn-secondary mt-3">Retour à la liste des parties</a>
     </div>
+
+    <script>
+        // Cette fonction est lancée dès que la page est prête
+        document.addEventListener('DOMContentLoaded', function () {
+            // Appel à la fonction startRound dès le chargement de la page
+            verifier();
+        });
+    </script>
 {% endblock %}
