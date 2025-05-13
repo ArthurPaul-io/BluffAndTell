@@ -24,9 +24,10 @@
                     
                     <td>{{ game.RoundCount }}</td>
                     <td>{{ game.GameStatut }}</td>
-                    <td>{{ game.CreatedBy.pseudo }}</td>
+                    
+                    <td>{{ game.CreatedBy.pseudo}}</td>
                     <td>
-                    {% if app.user and app.user.email == 'arthur.pannozzo@gmail.com' %}
+                    {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
                         <a href="{{ path('app_games_show', {'id': game.id}) }}" class="btn btn-primary">Show</a>
                         <a href="{{ path('app_games_edit', {'id': game.id}) }}" class="btn btn-warning">Edit</a>
                         {% endif %}
